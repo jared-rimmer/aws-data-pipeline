@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+    sftp:
+      image: atmoz/sftp:alpine
+      container_name: sftp
+      volumes:
+          - ./tests/fixtures:/home/extract/upload
+      ports:
+          - "22:22"
+      command: extract:password:1001

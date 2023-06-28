@@ -1,6 +1,6 @@
 from pipeline.config.connections import get_sftp_connection_credentials
 from pipeline.utils.sftp import sftp_connection
-from pipeline.scripts.load_data_from_sftp_to_s3 import list_files_in_sftp, get_new_files, upload_data_from_sftp_to_s3
+from pipeline.clients.sftp import SFTPClient
 
 
 from unittest.mock import patch, MagicMock
@@ -10,7 +10,7 @@ def test_file_list(sftp_credentials):
         with patch.object(sftp_conn, 'stat', new_callable=MagicMock()) as stat:       
             stat.return_value = MagicMock(st_mtime=1687516497)   
 
-            result = list_files_in_sftp(sftp_conn, path='upload')   
+            result = SFTPClient(sftp_conn).list_files(path='upload')
 
             assert result == [
                 {'file': '2023-06-23-trades.csv', 'modified': 1687516497},
@@ -28,9 +28,10 @@ def test_get_new_files():
 
     ]
 
-    result = get_new_files(list_of_files=test_files, last_modified=1687516498)
+    with sftp_connection(get_sftp_connection_credentials()) as sftp_conn:
+        result = SFTPClient(sftp_conn).get_new_files(list_of_files=test_files, last_modified=1687516498)
 
-    assert result == [
-        {'file': '2023-06-24-trades.csv', 'modified': 1687783811},
-        {'file': '2023-06-25-trades.csv', 'modified': 1687783815}
-    ]
+        assert result == [
+            {'file': '2023-06-24-trades.csv', 'modified': 1687783811},
+            {'file': '2023-06-25-trades.csv', 'modified': 1687783815}
+        ]

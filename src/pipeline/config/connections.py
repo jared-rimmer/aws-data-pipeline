@@ -17,3 +17,20 @@ def get_sftp_connection_credentials() -> SFTPConnectionConfig:
         host=os.environ.get('SFTP_HOST', ''),
         port=int(os.environ.get('SFTP_PORT', 22))
     )
+
+@dataclass
+class PostgresConnectionConfig:
+    user: Optional[str]
+    password: Optional[str]
+    host: Optional[str]
+    database: Optional[str]
+    port: int = 5432
+
+def get_postgres_connection_credentials() -> PostgresConnectionConfig:
+    return PostgresConnectionConfig(
+        user=os.environ.get('DATABASE_USERNAME', ''),
+        password=os.environ.get('DATABASE_PASSWORD', ''),
+        host=os.environ.get('DATABASE_HOST', ''),
+        database=os.environ.get('DATABASE_NAME', ''),
+        port=os.environ.get('DATABASE_PORT', 5432)
+    )

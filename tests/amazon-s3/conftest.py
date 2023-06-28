@@ -23,7 +23,6 @@ def aws_credentials():
     os.environ["AWS_REGION_NAME"] = "us-east-1"
     os.environ["AWS_ENDPOINT_URL"] = "http://localhost:5000"
 
-
 @pytest.fixture
 def s3_client(aws_credentials):
     """Mocked S3 Client using moto contextmanager"""

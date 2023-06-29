@@ -1,4 +1,4 @@
-from pipeline.utils.sftp import sftp_connection
+from pipeline.connections.sftp import sftp_connection
 from tempfile import NamedTemporaryFile
 
 import os 

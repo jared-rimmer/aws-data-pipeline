@@ -1,4 +1,4 @@
-from pipeline.utils.s3 import s3_connection
+from pipeline.connections.s3 import s3_connection
 
 
 class S3Client:

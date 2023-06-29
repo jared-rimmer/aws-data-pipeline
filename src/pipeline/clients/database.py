@@ -1,4 +1,4 @@
-from pipeline.utils.postgres import database_connection
+from pipeline.connections.postgres import database_connection
 
 
 class PostgresClient:

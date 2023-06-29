@@ -1,5 +1,5 @@
 from pipeline.config.connections import get_postgres_connection_credentials
-from pipeline.utils.postgres import database_connection
+from pipeline.connections.postgres import database_connection
 from pipeline.clients.database import PostgresClient
 
 import pytest

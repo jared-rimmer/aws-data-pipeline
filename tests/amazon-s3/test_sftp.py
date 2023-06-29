@@ -1,5 +1,5 @@
 from pipeline.config.connections import get_sftp_connection_credentials
-from pipeline.utils.sftp import sftp_connection
+from pipeline.connections.sftp import sftp_connection
 from pipeline.clients.sftp import SFTPClient
 
 

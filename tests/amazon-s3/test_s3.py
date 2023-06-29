@@ -1,5 +1,5 @@
 from pipeline.config.connections import get_aws_connection_credentials
-from pipeline.utils.s3 import s3_connection
+from pipeline.connections.s3 import s3_connection
 from pipeline.clients.s3 import S3Client
 from unittest.mock import patch, MagicMock
 

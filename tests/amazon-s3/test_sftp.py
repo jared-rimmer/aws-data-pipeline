@@ -16,6 +16,8 @@ def test_file_list(sftp_credentials):
                 {'file': '2023-06-23-trades.csv', 'modified': 1687516497},
                 {'file': '2023-06-24-trades.csv', 'modified': 1687516497},
                 {'file': '2023-06-25-trades.csv', 'modified': 1687516497},
+                {'file': '2023-06-29-trades-2.csv', 'modified': 1687516497},
+                {'file': '2023-06-29-trades.csv', 'modified': 1687516497}
             ]
 
 

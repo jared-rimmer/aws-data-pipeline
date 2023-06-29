@@ -34,3 +34,19 @@ def get_postgres_connection_credentials() -> PostgresConnectionConfig:
         database=os.environ.get('DATABASE_NAME', ''),
         port=os.environ.get('DATABASE_PORT', 5432)
     )
+
+@dataclass
+class AWSConnectionConfig:
+    aws_access_key_id: Optional[str]
+    aws_secret_access_key: Optional[str]
+    region_name: Optional[str]
+    endpoint_url: Optional[str]
+
+
+def get_aws_connection_credentials() -> AWSConnectionConfig:
+    return AWSConnectionConfig(
+        aws_access_key_id=os.environ.get('AWS_ACCESS_KEY_ID', ''),
+        aws_secret_access_key=os.environ.get('AWS_SECRET_ACCESS_KEY', ''),
+        region_name=os.environ.get('AWS_REGION_NAME', ''),
+        endpoint_url=os.environ.get('AWS_ENDPOINT_URL', '')
+    )

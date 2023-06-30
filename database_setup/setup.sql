@@ -5,11 +5,11 @@ CREATE TABLE production.trades (
     price FLOAT,
     quantity INTEGER,
     status VARCHAR(15),
-    source VARCHAR(256)
+    source_file_name VARCHAR(256)
 
 );
 
-INSERT INTO production.trades (id, ticker, price, quantity, status, source)
+INSERT INTO production.trades (id, ticker, price, quantity, status, source_file_name)
 VALUES 
     (1, 'TSLA', 100.00, 10, 'OPEN', '2023-06-23-trades-1'),
     (2, 'TSLA', 100.00, 10, 'OPEN', '2023-06-23-trades-2'),

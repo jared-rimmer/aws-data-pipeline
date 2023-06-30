@@ -34,5 +34,4 @@ class S3Client:
         file = self.client.get_object(Bucket=bucket_name, Key=file_name, VersionId=version_id)
         
         return file['Body'].read().decode('utf-8')
-        
-
+    

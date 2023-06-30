@@ -11,9 +11,7 @@ def add_source_file_name(latest_files: list) -> set:
     return latest_files
 
 
-def set_new_source_files(s3_files: list, database_sources: set) -> set:
+def get_difference(set_one: set, set_two: set) -> set:
 
-    s3_sources = set([file['source_file_name'] for file in s3_files])
-
-    return set(s3_sources).difference(database_sources)
+    return set(set_one).difference(set_two)
 

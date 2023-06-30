@@ -36,7 +36,6 @@ def s3_client(aws_credentials):
 def bucket_name():
     return "raw-data"
 
-
 @pytest.fixture
 def create_s3_bucket(s3_client, bucket_name):
     s3_client.create_bucket(Bucket=bucket_name)
@@ -46,6 +45,24 @@ def create_s3_bucket(s3_client, bucket_name):
         VersioningConfiguration={
             'MFADelete': 'Disabled',
             'Status': 'Enabled'
+        }
+    )
+
+    yield
+
+@pytest.fixture
+def production_bucket_name():
+    return "prod-data"
+
+@pytest.fixture
+def create_production_s3_bucket(s3_client, production_bucket_name):
+    s3_client.create_bucket(Bucket=production_bucket_name)
+
+    s3_client.put_bucket_versioning(
+        Bucket=production_bucket_name,
+        VersioningConfiguration={
+            'MFADelete': 'Disabled',
+            'Status': 'Disabled'
         }
     )
 

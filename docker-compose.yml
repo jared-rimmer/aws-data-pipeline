@@ -7,7 +7,7 @@ services:
       volumes:
           - ./tests/fixtures:/home/extract/upload
       ports:
-          - "22:22"
+          - "2222:22"
       command: extract:password:1001
 
     database:

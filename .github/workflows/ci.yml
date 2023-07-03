@@ -1,0 +1,26 @@
+name: CI
+on:
+    pull_request:
+      types: [opened, reopened]
+jobs:
+    run-tests-using-tox:
+        runs-on: ubuntu-latest
+        timeout-minutes: 10
+        steps:
+        - name: Checkout
+          uses: actions/checkout@v3
+
+        - name: Start containers
+          run: docker-compose -f "docker-compose.yml" up -d
+
+        - name: Install tox
+          run: pip install tox
+
+        - name: Run tox
+          run: tox -e test
+
+        - name: Stop containers
+          if: always()
+          run: |
+            docker-compose -f "docker-compose.yml" down
+            docker-compose -f "docker-compose.yml" down -v

@@ -9,7 +9,7 @@ def sftp_credentials():
     """Mocked SFTP Credentials"""
     os.environ["SFTP_USERNAME"] = "extract"
     os.environ["SFTP_PASSWORD"] = "password"
-    os.environ["SFTP_HOST"] = "localhost"
+    os.environ["SFTP_HOST"] = "127.0.0.1"
     os.environ["SFTP_PORT"]= "2222"
 
 

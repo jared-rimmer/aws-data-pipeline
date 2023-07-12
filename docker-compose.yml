@@ -20,4 +20,19 @@ services:
         ports:
         - '5432:5432'
         volumes: 
-            - ./database_setup:/docker-entrypoint-initdb.d
+        - ./database_setup:/docker-entrypoint-initdb.d
+        - /var/run/docker.sock:/var/run/docker.sock
+
+    moto-server:
+        image: motoserver/moto
+        container_name: motoserver
+        environment:
+        - TEST_SERVER_MODE=true
+        - AWS_SECRET_ACCESS_KEY=testing
+        - AWS_ACCESS_KEY_ID=testing
+        - MOTO_DOCKER_NETWORK_MODE=host
+        ports:
+        - '5000:5000'
+        volumes:
+        - .:/moto
+        - /var/run/docker.sock:/var/run/docker.sock

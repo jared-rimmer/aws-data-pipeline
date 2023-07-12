@@ -7,13 +7,14 @@ class PostgresClient:
         self.cursor = connection
 
     def get_distinct_sources(self, schema: str, table_name: str) -> set:
-        self.cursor.execute(f"""select distinct source_file_name from {schema}.{table_name};""")
         
-        return set([source[0] for source in self.cursor.fetchall()])
+        result = self.cursor.run(f"""select distinct source_file_name from {schema}.{table_name};""")
+        
+        return set([source[0] for source in result])
 
     def delete_sources(self, schema: str, table_name: str, sources: list) -> set:
 
         edit = (',').join([f"'{source}'" for source in sources])
 
-        self.cursor.execute(f"""delete from {schema}.{table_name} where source_file_name in ({edit});""")
+        self.cursor.run(f"""delete from {schema}.{table_name} where source_file_name in ({edit});""")
         

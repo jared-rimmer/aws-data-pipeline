@@ -1,19 +1,16 @@
 from contextlib import contextmanager
 from dataclasses import asdict
 
-import psycopg2
+import pg8000.native
 
 from pipeline.config.connections import PostgresConnectionConfig
 
 @contextmanager
 def database_connection(postgres_connection_config: PostgresConnectionConfig):
     
-    database_connection = psycopg2.connect(**asdict(postgres_connection_config))
-    database_connection.autocommit = True
+    connection = pg8000.native.Connection(**asdict(postgres_connection_config))
 
     try:
-        cursor = database_connection.cursor()
-        yield cursor
+        yield connection
     finally:
-        cursor.close()
-        database_connection.close()
+        connection.close()

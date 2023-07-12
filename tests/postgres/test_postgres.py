@@ -6,7 +6,7 @@ import pytest
 
 
 @pytest.fixture()
-def setup(postgres_credentials):
+def setup():
     with database_connection(get_postgres_connection_credentials()) as connection:
 
         connection.execute(f"""truncate table production.trades;""")
@@ -20,7 +20,7 @@ def setup(postgres_credentials):
     yield
 
 
-def test_postgres_client_get_distinct_sources(setup, postgres_credentials):
+def test_postgres_client_get_distinct_sources(setup):
 
     with database_connection(get_postgres_connection_credentials()) as connection:
 
@@ -29,7 +29,7 @@ def test_postgres_client_get_distinct_sources(setup, postgres_credentials):
 
         assert result == {'2023-06-23-trades-1', '2023-06-24-trades-1', '2023-06-23-trades-2'}    
 
-def test_postgres_client_delete_sources(setup, postgres_credentials):
+def test_postgres_client_delete_sources(setup):
 
     with database_connection(get_postgres_connection_credentials()) as connection:
         

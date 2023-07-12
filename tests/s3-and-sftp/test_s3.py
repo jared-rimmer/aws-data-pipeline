@@ -1,11 +1,10 @@
-from pipeline.config.connections import get_aws_connection_credentials
-from pipeline.connections.s3 import s3_connection
 from pipeline.clients.s3 import S3Client
 from unittest.mock import patch, MagicMock
 
 import os
 
-def test_s3_list_files_with_prefix(s3_client, create_s3_bucket, bucket_name):
+
+def test_s3_list_files_with_prefix(s3_client, create_s3_bucket, bucket_name, set_up_and_tear_down):
 
     first_file = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'fixtures', '2023-06-23-trades.csv'))
     second_file = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'fixtures', '2023-06-24-trades.csv'))
@@ -17,7 +16,7 @@ def test_s3_list_files_with_prefix(s3_client, create_s3_bucket, bucket_name):
 
     assert result == {'2023-06-23-trades.csv', '2023-06-24-trades.csv'}
 
-def test_s3_list_files_without_prefix(s3_client, create_s3_bucket, bucket_name):
+def test_s3_list_files_without_prefix(s3_client, create_s3_bucket, bucket_name, set_up_and_tear_down):
 
     first_file = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'fixtures', '2023-06-23-trades.csv'))
     second_file = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'fixtures', '2023-06-24-trades.csv'))
@@ -30,7 +29,7 @@ def test_s3_list_files_without_prefix(s3_client, create_s3_bucket, bucket_name):
     assert result == {'2023-06-23-trades.csv', '2023-06-24-trades.csv'}
 
 
-def test_get_latest_file_version(s3_client, create_s3_bucket, bucket_name):
+def test_get_latest_file_version(s3_client, create_s3_bucket, bucket_name, set_up_and_tear_down):
 
     first_file = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'fixtures', '2023-06-23-trades.csv'))
 
@@ -48,7 +47,7 @@ def test_get_latest_file_version(s3_client, create_s3_bucket, bucket_name):
 
         assert result == [{'file_name': '2023-06-23-trades.csv', 'version': '1234'}]
 
-def test_get_file(s3_client, create_s3_bucket, bucket_name):
+def test_get_file(s3_client, create_s3_bucket, bucket_name, set_up_and_tear_down):
 
     first_file = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'fixtures', '2023-06-29-trades.csv'))
     second_file = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'fixtures', '2023-06-29-trades-2.csv'))
@@ -65,7 +64,7 @@ def test_get_file(s3_client, create_s3_bucket, bucket_name):
     assert result == 'id,ticker,price,quantity,status\n1,SNOW,200,20,settled'
 
 
-def test_put_file(s3_client, create_production_s3_bucket, production_bucket_name):
+def test_put_file(s3_client, create_production_s3_bucket, production_bucket_name, set_up_and_tear_down):
 
     file_content = 'id,ticker,price,quantity,status\n1,SNOW,200,20,settled'
 
@@ -76,7 +75,7 @@ def test_put_file(s3_client, create_production_s3_bucket, production_bucket_name
     assert result['Body'].read().decode('utf-8') == file_content
 
 
-def test_delete_file_by_prefix(s3_client, create_production_s3_bucket, production_bucket_name):
+def test_delete_file_by_prefix(s3_client, create_production_s3_bucket, production_bucket_name, set_up_and_tear_down):
 
     first_file = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'fixtures', '2023-06-29-trades.csv'))
 

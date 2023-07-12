@@ -1,30 +1,11 @@
 import boto3
-import os
 import pytest
 
 from moto import mock_s3
 
-@pytest.fixture
-def sftp_credentials():
-    """Mocked SFTP Credentials"""
-    os.environ["SFTP_USERNAME"] = "extract"
-    os.environ["SFTP_PASSWORD"] = "password"
-    os.environ["SFTP_HOST"] = "localhost"
-    os.environ["SFTP_PORT"]= "2222"
-
 
 @pytest.fixture
-def aws_credentials():
-    """Mocked AWS Credentials for moto."""
-    os.environ["AWS_ACCESS_KEY_ID"] = "testing"
-    os.environ["AWS_SECRET_ACCESS_KEY"] = "testing"
-    os.environ["AWS_SECURITY_TOKEN"] = "testing"
-    os.environ["AWS_SESSION_TOKEN"] = "testing"
-    os.environ["AWS_REGION_NAME"] = "us-east-1"
-    os.environ["AWS_ENDPOINT_URL"] = "http://localhost:5000"
-
-@pytest.fixture
-def s3_client(aws_credentials):
+def s3_client():
     """Mocked S3 Client using moto contextmanager"""
 
     with mock_s3():
@@ -67,3 +48,28 @@ def create_production_s3_bucket(s3_client, production_bucket_name):
     )
 
     yield
+
+
+def delete_files_and_versions(s3_client, bucket_name, prefix):
+
+    paginator = s3_client.get_paginator('list_object_versions')
+    response_iterator = paginator.paginate(Bucket=bucket_name)
+    for response in response_iterator:
+        versions = response.get('Versions', [])
+        versions.extend(response.get('DeleteMarkers', []))
+        for result in [{'filename' : x['Key'], 'version_id': x['VersionId']} for x in versions if prefix in x['Key'] and x['VersionId'] != 'null']:
+
+            s3_client.delete_object(Bucket=bucket_name, Key=result['filename'], VersionId=result['version_id'])
+
+
+@pytest.fixture
+def set_up_and_tear_down(s3_client, bucket_name):
+    """ Removes all files and versions from the staging bucket"""
+
+    prefix = '2023-06'
+
+    delete_files_and_versions(s3_client, bucket_name, prefix)
+    
+    yield
+
+    delete_files_and_versions(s3_client, bucket_name, prefix)

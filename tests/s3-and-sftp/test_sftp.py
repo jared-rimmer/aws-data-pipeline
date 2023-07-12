@@ -5,7 +5,7 @@ from pipeline.clients.sftp import SFTPClient
 
 from unittest.mock import patch, MagicMock
 
-def test_file_list(sftp_credentials):
+def test_file_list():
     with sftp_connection(get_sftp_connection_credentials()) as sftp_conn:
         with patch.object(sftp_conn, 'stat', new_callable=MagicMock()) as stat:       
             stat.return_value = MagicMock(st_mtime=1687516497)   

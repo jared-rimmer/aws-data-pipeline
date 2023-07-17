@@ -5,6 +5,7 @@ import pysftp
 
 from pipeline.config.connections import SFTPConnectionConfig
 
+
 @contextmanager
 def sftp_connection(sftp_connection_config: SFTPConnectionConfig):
     connection_options = pysftp.CnOpts()

@@ -34,12 +34,17 @@ If you aren't using VS code you can type the following into your terminal
 export PYTHONPATH=${PYTHONPATH}:./src
 ```
 
-Please note: this variable will only persist for the duration of your terminal. If you close your terminal this will have to be re-run in order to set the environment variable again.
+**Please note**: 
+
+- If using the VS code method you might have to reload your terminal / VS code in order for these updated settings to persist.
+
+- If using the export method this variable will only persist for the duration of your terminal. If you close your terminal this will have to be re-run in order to set the environment variable again.
 
 ### Bring Up The Docker Containers
 
 1. Ensure that you are in the root of this repository
-2. Bring up the Docker containers by typing `docker-compose up -d` in your terminal.
+2. Ensure that Docker is running on your machine.
+3. Bring up the Docker containers by typing `docker-compose up -d` in your terminal.
 
 ## Running The Tests
 
